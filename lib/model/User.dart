@@ -1,10 +1,11 @@
-class User{
+class User {
   int? id;
   String? fName;
   String? lName;
   String? contact;
   String? email;
   String? dob;
+
   userMap() {
     var mapping = <String, dynamic>{};
     mapping['id'] = id;

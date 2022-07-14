@@ -34,14 +34,32 @@ class _ViewUserState extends State<ViewUser> {
               ),
               Row(
                 children: [
-                  const Text('Name',
+                  const Text('First Name',
                       style: TextStyle(
                           color: Colors.teal,
                           fontSize: 16,
                           fontWeight: FontWeight.w600)),
                   Padding(
                     padding: const EdgeInsets.only(left: 30),
-                    child: Text(widget.user.fName ?? '', style: TextStyle(fontSize: 16)),
+                    child: Text(widget.user.fName ?? '',
+                        style: TextStyle(fontSize: 16)),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  const Text('Last Name',
+                      style: TextStyle(
+                          color: Colors.teal,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: Text(widget.user.lName ?? '',
+                        style: TextStyle(fontSize: 16)),
                   ),
                 ],
               ),
@@ -57,27 +75,59 @@ class _ViewUserState extends State<ViewUser> {
                           fontWeight: FontWeight.w600)),
                   Padding(
                     padding: const EdgeInsets.only(left: 25),
-                    child: Text(widget.user.contact ?? '', style: TextStyle(fontSize: 16)),
+                    child: Text(widget.user.contact ?? '',
+                        style: TextStyle(fontSize: 16)),
                   ),
                 ],
               ),
               const SizedBox(
                 height: 20,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
                 children: [
-                  const Text('Description',
+                  const Text('Email',
                       style: TextStyle(
                           color: Colors.teal,
                           fontSize: 16,
                           fontWeight: FontWeight.w600)),
-                  const SizedBox(
-                    height: 20,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25),
+                    child: Text(widget.user.email ?? '',
+                        style: TextStyle(fontSize: 16)),
                   ),
-                  Text(widget.user.email ?? '', style: const TextStyle(fontSize: 16)),
                 ],
-              )
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  const Text('Date of Birth',
+                      style: TextStyle(
+                          color: Colors.teal,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25),
+                    child: Text(widget.user.dob ?? '',
+                        style: TextStyle(fontSize: 16)),
+                  ),
+                ],
+              ),
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     const Text('Description',
+              //         style: TextStyle(
+              //             color: Colors.teal,
+              //             fontSize: 16,
+              //             fontWeight: FontWeight.w600)),
+              //     const SizedBox(
+              //       height: 20,
+              //     ),
+              //     Text(widget.user.email ?? '', style: const TextStyle(fontSize: 16)),
+              //   ],
+              // )
             ],
           ),
         ));

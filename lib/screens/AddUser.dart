@@ -1,12 +1,16 @@
 import 'package:crud_app/model/User.dart';
 import 'package:crud_app/services/UserService.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class AddUser extends StatefulWidget {
-  const AddUser({Key? key}) : super(key: key);
+  final User user;
+
+  // const AddUser({Key? key}) : super(key: key);
+  const AddUser({Key? key, required this.user}) : super(key: key);
 
   @override
   State<AddUser> createState() => _AddUserState();
@@ -19,11 +23,12 @@ class _AddUserState extends State<AddUser> {
   final _userEmailController = TextEditingController();
   final _userDobController = TextEditingController();
 
-  String? _validateFirstName = null;
-  String? _validateLastName = null;
-  String? _validateContact = null;
-  String? _validateDob = null;
-  String? _validateEmail = null;
+  String? _validateFirstName;
+
+  String? _validateLastName;
+  String? _validateContact;
+  String? _validateDob;
+  String? _validateEmail;
 
   String ContactPatttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
   String emailPattern =
@@ -31,10 +36,22 @@ class _AddUserState extends State<AddUser> {
 
   var _userService = UserService();
 
-  late String birthDateInString;
+  // late String birthDateInString;
 
-  DateTime selectedDate = DateTime.now();
-  TextEditingController _date = new TextEditingController();
+  // DateTime selectedDate = DateTime.now();
+  DateTime? date;
+
+  @override
+  void initState() {
+    setState(() {
+      _userFirstNameController.text = widget.user.fName ?? '';
+      _userLastNameController.text = widget.user.lName ?? '';
+      _userContactController.text = widget.user.contact ?? '';
+      _userEmailController.text = widget.user.email ?? '';
+      _userDobController.text = widget.user.dob ?? '';
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +65,8 @@ class _AddUserState extends State<AddUser> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Add New User',
+               const Text(
+                ('Add New User'),
                 style: TextStyle(
                     fontSize: 20,
                     color: Colors.teal,
@@ -133,20 +150,20 @@ class _AddUserState extends State<AddUser> {
               ),
               GestureDetector(
                 onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      //DateTime.now() - not to allow to choose before today.
-                      lastDate: DateTime.now(),);
+                  final initialDate = DateTime.now();
+                  final pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: date ?? initialDate,
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                  );
 
-                  if (pickedDate != null && pickedDate != DateTime.now()) {
+                  if (pickedDate != null) {
                     String formattedDate =
-                    DateFormat('yyyy-MM-dd').format(pickedDate);
-
+                        DateFormat('dd-MM-yyyy').format(pickedDate);
                     setState(() {
-                      _userDobController.text =
-                          formattedDate; //set output date to TextField value.
+                      _userDobController.text = formattedDate;
+                      date = pickedDate;
                     });
                   } else {
                     print("Date is not selected");
@@ -171,7 +188,6 @@ class _AddUserState extends State<AddUser> {
                   ),
                 ),
               ),
-
               const SizedBox(
                 height: 20.0,
               ),
@@ -210,19 +226,20 @@ class _AddUserState extends State<AddUser> {
                           _validateEmail = null;
                         }
                       });
-                      if (_validateFirstName == false &&
-                          _validateLastName == false &&
-                          _validateContact == false &&
-                          _validateEmail == false &&
-                          _validateDob == false) {
-                        // print("Good Data Can Save");
+                      if (_userFirstNameController.text.isNotEmpty &&
+                          _userLastNameController.text.isNotEmpty &&
+                          _userContactController.text.isNotEmpty &&
+                          _userEmailController.text.isNotEmpty &&
+                          _userDobController.text.isNotEmpty) {
+                        // debugPrint("Good Data Can Save");
                         var _user = User();
                         _user.fName = _userFirstNameController.text;
-                        _user.lName = _userFirstNameController.text;
+                        _user.lName = _userLastNameController.text;
                         _user.contact = _userContactController.text;
                         _user.email = _userEmailController.text;
+                        _user.dob = _userDobController.text;
                         var result = await _userService.saveUser(_user);
-                        // print(result);
+                        // print("result -> $result ");
                         Navigator.pop(context, result);
                       }
                     },

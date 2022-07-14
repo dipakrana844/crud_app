@@ -80,13 +80,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextButton.styleFrom(
                       primary: Colors.white, // foreground
                       backgroundColor: Colors.red),
-                  onPressed: ()  async{
-                    var result=await _userService.deleteUser(userId);
+                  onPressed: () async {
+                    var result = await _userService.deleteUser(userId);
                     if (result != null) {
                       Navigator.pop(context);
                       getAllUserDetails();
-                      _showSuccessSnackBar(
-                          'User Detail Deleted Success');
+                      _showSuccessSnackBar('User Detail Deleted Success');
                     }
                   },
                   child: const Text('Delete')),
@@ -119,8 +118,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => ViewUser(
-                            user: _userList[index],
-                          )));
+                                user: _userList[index],
+                              )));
                 },
                 leading: const Icon(Icons.person),
                 title: Text(_userList[index].fName ?? ''),
@@ -134,8 +133,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => EditUser(
-                                    user: _userList[index],
-                                  ))).then((data) {
+                                        user: _userList[index],
+                                      ))).then((data) {
                             if (data != null) {
                               getAllUserDetails();
                               _showSuccessSnackBar(
@@ -164,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const AddUser()))
+                  MaterialPageRoute(builder: (context) => const AddUser()))
               .then((data) {
             if (data != null) {
               getAllUserDetails();
